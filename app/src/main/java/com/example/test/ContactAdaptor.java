@@ -8,32 +8,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class ContactAdaptor extends RecyclerView.Adapter<ContactAdaptor.ContactViewHolder> {
 
-    private String[] contacts = new String[20];
+    private ArrayList<String> contacts = new ArrayList<>();
 
     public ContactAdaptor() {
-        contacts[0]="Ruthann Trustrie";
-        contacts[1]="Peadar Dawtrey";
-        contacts[2]="Felipe Bradtke";
-        contacts[3]="Claude Crissil";
-        contacts[4]="Jacky Girardeau";
-        contacts[5]="Rubia Dominguez";
-        contacts[6]="Michaela Churchley";
-        contacts[7]="Harvey Pentelow";
-        contacts[8]="Neilla Langton";
-        contacts[9]="Marco Greaves";
-        contacts[10]="Liz Batchley";
-        contacts[11]="Lamond Littlepage";
-        contacts[12]="Malina Weir";
-        contacts[13]="Tomlin Lenchenko";
-        contacts[14]="Hy Pavelin";
-        contacts[15]="Jenelle Palin";
-        contacts[16]="Damon Knewstubb";
-        contacts[17]="Alex Ivanusyev";
-        contacts[18]="Hamil Callery";
-        contacts[19]="Karol Syer";
+        contacts.add("Ruthann Trustrie");
+        contacts.add("Peadar Dawtrey");
+        contacts.add("Felipe Bradtke");
+        contacts.add("Claude Crissil");
+        contacts.add("Jacky Girardeau");
+        contacts.add("Rubia Dominguez");
+        contacts.add("Michaela Churchley");
+        contacts.add("Harvey Pentelow");
+        contacts.add("Neilla Langton");
+        contacts.add("Marco Greaves");
+        contacts.add("Liz Batchley");
+        contacts.add("Lamond Littlepage");
+        contacts.add("Malina Weir");
+        contacts.add("Tomlin Lenchenko");
+        contacts.add("Hy Pavelin");
+        contacts.add("Jenelle Palin");
+        contacts.add("Damon Knewstubb");
+        contacts.add("Alex Ivanusyev");
+        contacts.add("Hamil Callery");
+        contacts.add("Karol Syer");
+    }
 
+    public void addNewContact(String fullName ){
+        contacts.add(0,fullName);
+        notifyItemInserted(0);
     }
 
     @NonNull
@@ -45,12 +51,12 @@ public class ContactAdaptor extends RecyclerView.Adapter<ContactAdaptor.ContactV
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.bindContact(contacts[position]);
+        holder.bindContact(contacts.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return contacts.length;
+        return contacts.size();
     }
 
 
