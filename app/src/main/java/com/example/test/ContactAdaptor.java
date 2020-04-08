@@ -1,9 +1,11 @@
 package com.example.test;
 
+import android.content.ContentProviderClient;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,8 +15,10 @@ import java.util.ArrayList;
 public class ContactAdaptor extends RecyclerView.Adapter<ContactAdaptor.ContactViewHolder> {
 
     private ArrayList<String> contacts = new ArrayList<>();
+    private ItemEventListener itemEventListener;
 
-    public ContactAdaptor() {
+    public ContactAdaptor(ItemEventListener itemEventListener) {
+        this.itemEventListener = itemEventListener;
         contacts.add("Ruthann Trustrie");
         contacts.add("Peadar Dawtrey");
         contacts.add("Felipe Bradtke");
@@ -40,6 +44,11 @@ public class ContactAdaptor extends RecyclerView.Adapter<ContactAdaptor.ContactV
     public void addNewContact(String fullName ){
         contacts.add(0,fullName);
         notifyItemInserted(0);
+    }
+
+    public void updateContact(String fullName,int position){
+        contacts.set(position,fullName);
+        notifyItemChanged(position);
     }
 
     @NonNull
@@ -69,10 +78,31 @@ public class ContactAdaptor extends RecyclerView.Adapter<ContactAdaptor.ContactV
             FullName_tv = itemView.findViewById(R.id.tv_fullName);
             FirstChar_tv = itemView.findViewById(R.id.tv_firstChar);
         }
-        public void bindContact(String fullname){
+        public void bindContact(final String fullname){
             FullName_tv.setText(fullname);
             FirstChar_tv.setText(fullname.substring(0,1));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   // Toast.makeText(v.getContext(),fullname, Toast.LENGTH_SHORT).show();
+                    itemEventListener.onItemClick(fullname,getAdapterPosition());
+                }
+            });
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        contacts.remove(getAdapterPosition());
+                        notifyItemRemoved(getAdapterPosition());
+                        return false;
+                    }
+                });
+
         }
+    }
+
+    public interface ItemEventListener{
+        void onItemClick(String fullName,int position);
+
     }
 }
 
